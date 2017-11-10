@@ -20,11 +20,21 @@ public class Generator extends Agent{
     
     @Override
     protected void setup(){
-        System.out.println("volaco");
+        System.out.println("generator");
         AgentContainer c = getContainerController();
         try {
-            AgentController ac = c.createNewAgent("car", "CarAgent", new Object[]{this.getAID()});
-            ac.start();
+            AgentController crossAgent = c.createNewAgent(
+                    "crossroad", 
+                    "CrossRoad", 
+                    new Object[]{this.getAID()});
+            crossAgent.start();
+            
+            AgentController carAgent = c.createNewAgent(
+                    "car", 
+                    "CarAgent", 
+                    new Object[]{});
+            
+            carAgent.start();
         } catch (StaleProxyException ex) {
             System.out.println("ERORORROPROROR ======");
             Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);
