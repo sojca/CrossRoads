@@ -29,12 +29,15 @@ public class Generator extends Agent{
                     new Object[]{this.getAID()});
             crossAgent.start();
             
-            AgentController carAgent = c.createNewAgent(
-                    "car", 
+            AgentController carAgent;
+            for(int i = 0; i < 4; i++){
+                carAgent = c.createNewAgent(
+                    "car"+i, 
                     "CarAgent", 
                     new Object[]{});
             
-            carAgent.start();
+                carAgent.start();
+            }
         } catch (StaleProxyException ex) {
             System.out.println("ERORORROPROROR ======");
             Logger.getLogger(Generator.class.getName()).log(Level.SEVERE, null, ex);

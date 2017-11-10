@@ -5,6 +5,7 @@ import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
+import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 
 /*
@@ -28,12 +29,13 @@ public class CarAgent extends Agent {
             System.out.println(arg);
         }
 
-        addBehaviour(new WakerBehaviour(this, 1000) {
+        //registrateDirectionFromService();
+        addBehaviour(new WakerBehaviour(this, 1000 + ((int)(Math.random() * 10000)) ) {
 
             @Override
             protected void onWake() {
                 String msg = "som auto";
-                
+
                 getService("crossroad");
                 if (pas.length > 0) {
                     ACLMessage m = new ACLMessage(ACLMessage.CFP);
@@ -46,18 +48,33 @@ public class CarAgent extends Agent {
             }
         });
     }
-    
+
+    protected void registrateDirectionFromService() {
+        try {
+            DFAgentDescription dfd = new DFAgentDescription();  // DF register
+            dfd.setName(getAID());
+            ServiceDescription sd = new ServiceDescription();
+            sd.setName("dirrection from service");
+            sd.setType("north");
+            sd.addLanguages(FIPANames.ContentLanguage.FIPA_SL);
+            dfd.addServices(sd);
+            DFService.register(this, dfd);
+        } catch (FIPAException e) {
+            e.printStackTrace();
+        }
+    }
+
     protected void getService(String service) {
-        ServiceDescription sd  = new ServiceDescription();
+        ServiceDescription sd = new ServiceDescription();
         sd.setType(service);
 
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.addServices(sd);
 
         try {
-            pas =  DFService.search(this, dfd);
+            pas = DFService.search(this, dfd);
             System.out.println("Pocet agentov poskytujucich sluzbu: "
-                + pas.length);
+                    + pas.length);
         } catch (FIPAException e) {
             e.printStackTrace();
         }
