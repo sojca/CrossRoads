@@ -8,6 +8,7 @@ import jade.domain.FIPAException;
 import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,26 +20,37 @@ import jade.lang.acl.ACLMessage;
  */
 public class CarAgent extends Agent {
 
+    private int source;
+    private int destination;
+
+    private long timestampStart = 0;
+    private long timestampEnd = 0;
+
     //private String crossAgentName;
-    protected DFAgentDescription[] pas;
+    private DFAgentDescription[] pas;
 
     protected void setup() {
-        System.out.println("auto");
         Object args[] = getArguments();
+        
+        System.out.println("Auto - ARGUMENTS");
         for (Object arg : args) {
             System.out.println(arg);
         }
+        if (args.length > 1) {
+            source = (int) args[0];
+            destination = (int) args[1];
+        }
 
         //registrateDirectionFromService();
-        addBehaviour(new WakerBehaviour(this, 1000 + ((int)(Math.random() * 10000)) ) {
+        addBehaviour(new WakerBehaviour(this, 1000 + ((int) (Math.random() * 1000))) {
 
             @Override
             protected void onWake() {
-                String msg = "som auto";
+                String msg = Integer.toString(source);
 
                 getService("crossroad");
                 if (pas.length > 0) {
-                    ACLMessage m = new ACLMessage(ACLMessage.CFP);
+                    ACLMessage m = new ACLMessage(ACLMessage.INFORM);
                     m.addReceiver(pas[0].getName());
                     m.setContent(msg);
                     myAgent.send(m);

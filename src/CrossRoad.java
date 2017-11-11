@@ -2,7 +2,6 @@
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.WakerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -11,6 +10,7 @@ import jade.domain.FIPANames;
 import jade.lang.acl.ACLMessage;
 import java.util.LinkedList;
 import java.util.Queue;
+import static lib.Constants.*;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -23,9 +23,11 @@ import java.util.Queue;
  */
 public class CrossRoad extends Agent {
 
-    protected int counter = 0;
-    protected DFAgentDescription[] pas;
-    protected static Queue<AID> northQueue = new LinkedList();
+    private DFAgentDescription[] pas;
+    private Queue<AID> northQueue = new LinkedList();
+    private Queue<AID> eastQueue = new LinkedList();
+    private Queue<AID> southQueue = new LinkedList();
+    private Queue<AID> westQueue = new LinkedList();
 
     protected void setup() {
         System.out.println("there is crossroad");
@@ -44,7 +46,6 @@ public class CrossRoad extends Agent {
         }
         addBehaviour(new CyclicBehaviour(this) {
 
-
             @Override
             public void action() {
                 ACLMessage msg = myAgent.receive();
@@ -54,25 +55,30 @@ public class CrossRoad extends Agent {
                     AID sender;
                     sender = msg.getSender();
 
-                    if (msg.getPerformative() == ACLMessage.CFP) {
-                        northQueue.add(sender);
-                        counter++;
-                        System.out.println(java.lang.System.identityHashCode(this));
-                        System.out.println("prislo auto: " + sender.getName() + " dlzka: " + northQueue.size());
-                        System.out.println("vypis ==== : " + counter);
-
-                        for (AID a : northQueue) {
-                            System.out.println(a.getName());
+                    if (msg.getPerformative() == ACLMessage.INFORM) {
+                        System.out.println("prislo auto: " + sender.getName() + " " + msg.getContent());
+                        switch (Integer.parseInt(msg.getContent())) {
+                            case NORTH: {
+                                northQueue.add(sender);
+                                break;
+                            }
+                            case SOUTH: {
+                                southQueue.add(sender);
+                                break;
+                            }
+                            case EAST: {
+                                eastQueue.add(sender);
+                                break;
+                            }
+                            case WEST: {
+                                westQueue.add(sender);
+                                break;
+                            }
                         }
-                        System.out.println("koniec vypisu ====");
-
                     }
                 }
-
             }
         });
-        addBehaviour(new ReceivedMsgBehaviour());
-
     }
 
     protected void getService(String service) {
@@ -90,27 +96,4 @@ public class CrossRoad extends Agent {
             e.printStackTrace();
         }
     }
-
-}
-
-class ReceivedMsgBehaviour extends CyclicBehaviour {
-
-    protected AID sender;
-
-    @Override
-    public void action() {
-        ACLMessage msg = myAgent.receive();
-        if (msg == null) {
-            block();
-        } else {
-            sender = msg.getSender();
-
-            if (msg.getPerformative() == ACLMessage.CFP) {
-                System.out.println("prislo auto: " + sender.getName());
-            }
-
-        }
-
-    }
-
 }
