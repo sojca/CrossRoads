@@ -1,7 +1,10 @@
+package agents;
+
 
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
+import jade.core.behaviours.WakerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -44,8 +47,8 @@ public class CrossRoad extends Agent {
         } catch (FIPAException e) {
             e.printStackTrace();
         }
-        addBehaviour(new CyclicBehaviour(this) {
 
+        addBehaviour(new CyclicBehaviour(this) {
             @Override
             public void action() {
                 ACLMessage msg = myAgent.receive();

@@ -1,13 +1,14 @@
+package agents;
 
+import behaviors.car.CarBehaviour;
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.WakerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.domain.FIPANames;
-import jade.lang.acl.ACLMessage;
-
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -26,9 +27,9 @@ public class CarAgent extends Agent {
     private long timestampStart = 0;
     private long timestampEnd = 0;
 
-    //private String crossAgentName;
-    private DFAgentDescription[] pas;
+    private DFAgentDescription crossroad = null;
 
+    @Override
     protected void setup() {
         Object args[] = getArguments();
         
@@ -36,29 +37,18 @@ public class CarAgent extends Agent {
         for (Object arg : args) {
             System.out.println(arg);
         }
-        if (args.length > 1) {
-            source = (int) args[0];
-            destination = (int) args[1];
-        }
 
+        /*
+        getService();
+        
         //registrateDirectionFromService();
         addBehaviour(new WakerBehaviour(this, 1000 + ((int) (Math.random() * 1000))) {
 
             @Override
             protected void onWake() {
-                String msg = Integer.toString(source);
-
-                getService("crossroad");
-                if (pas.length > 0) {
-                    ACLMessage m = new ACLMessage(ACLMessage.INFORM);
-                    m.addReceiver(pas[0].getName());
-                    m.setContent(msg);
-                    myAgent.send(m);
-                } else {
-                    System.out.println("nemam sluzbu");
-                }
+                //addBehaviour(new CarBehaviour());
             }
-        });
+        });*/
     }
 
     protected void registrateDirectionFromService() {
@@ -76,19 +66,44 @@ public class CarAgent extends Agent {
         }
     }
 
-    protected void getService(String service) {
+    /**
+     * Get and save crossroad reference
+     */
+    protected void getService() {
         ServiceDescription sd = new ServiceDescription();
-        sd.setType(service);
+        sd.setType("crossroad");
 
         DFAgentDescription dfd = new DFAgentDescription();
         dfd.addServices(sd);
 
         try {
-            pas = DFService.search(this, dfd);
-            System.out.println("Pocet agentov poskytujucich sluzbu: "
-                    + pas.length);
+            crossroad = DFService.search(this, dfd)[0];
         } catch (FIPAException e) {
             e.printStackTrace();
         }
+    }
+
+    public int getSource() {
+        return source;
+    }
+
+    public void setSource(int source) {
+        this.source = source;
+    }
+
+    public int getDestination() {
+        return destination;
+    }
+
+    public void setDestination(int destination) {
+        this.destination = destination;
+    }
+
+    public DFAgentDescription getCrossroad() {
+        return crossroad;
+    }
+
+    public void setCrossroad(DFAgentDescription crossroad) {
+        this.crossroad = crossroad;
     }
 }
