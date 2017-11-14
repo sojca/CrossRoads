@@ -36,7 +36,7 @@ public class WaitForGreenLightBehaviour extends Behaviour {
         if (rsp == null) {
             block();
         } else {
-            if (rsp.getPerformative() == ACLMessage.CONFIRM) {
+            if (rsp.getPerformative() == ACLMessage.PROPAGATE) {
                 int status = Integer.parseInt(rsp.getContent());
                 isGreenLight = (status == Constants.GREEN);
             }

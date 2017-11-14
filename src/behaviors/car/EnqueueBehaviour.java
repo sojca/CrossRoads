@@ -3,6 +3,7 @@ package behaviors.car;
 import agents.CarAgent;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 
 /**
  * Car waits in queue until its first
@@ -17,12 +18,14 @@ public class EnqueueBehaviour extends Behaviour {
 
         CarAgent agent = (CarAgent) myAgent;
 
+        // Inform crossroad that car has entered it
         if (agent.getCrossroad() != null) {
             String msg = Integer.toString(agent.getSource());
-            ACLMessage m = new ACLMessage(ACLMessage.REQUEST);
+            ACLMessage m = new ACLMessage(ACLMessage.PROPOSE);
             m.addReceiver(agent.getCrossroad().getName());
             m.setContent(msg);
             myAgent.send(m);
+            System.out.println("Informovany");
         } else {
             System.out.println("nemam sluzbu");
         }
@@ -33,14 +36,13 @@ public class EnqueueBehaviour extends Behaviour {
         System.out.println("WAITING IN QUEUE " + myAgent.getLocalName());
 
         // Wait for message
-        ACLMessage msg = myAgent.receive();
+        MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
+        ACLMessage msg = myAgent.receive(mt);
 
         if (msg == null) {
             block();
         } else {
-            if (msg.getPerformative() == ACLMessage.INFORM) {
-                isFirstInQueue = true;
-            }
+            isFirstInQueue = true;
         }
     }
 

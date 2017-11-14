@@ -8,11 +8,11 @@ import jade.lang.acl.MessageTemplate;
 /**
  * Behavior for removing cars from crossroad that are ready to leave
  */
-public class RemoveCarBehavior extends CyclicBehaviour {
+public class RemoveCarBehaviour extends CyclicBehaviour {
 
     private final CrossRoad crossroad;
 
-    public RemoveCarBehavior() {
+    public RemoveCarBehaviour() {
         crossroad = (CrossRoad) myAgent;
     }
 

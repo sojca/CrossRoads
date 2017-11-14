@@ -2,7 +2,6 @@ package behaviors.crossroad;
 
 import agents.CrossRoad;
 import jade.core.behaviours.OneShotBehaviour;
-import java.util.Random;
 import lib.Constants;
 
 /**
@@ -26,11 +25,5 @@ public class TransitionBehaviour extends OneShotBehaviour {
             crossroad.setSemaphore(Constants.EAST, Constants.RED);
 
         }
-    }
-
-    @Override
-    public int onEnd() {
-        Random r = new Random();
-        return 1000 * (1 + r.nextInt(5));
     }
 }

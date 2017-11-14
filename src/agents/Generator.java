@@ -32,7 +32,7 @@ public class Generator extends Agent {
 
             AgentController carAgent;
 
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 1; i++) {
 
                 carAgent = c.createNewAgent(
                         "car" + i,

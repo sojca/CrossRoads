@@ -27,12 +27,8 @@ public class AddCarBehaviour extends CyclicBehaviour {
             // Parse message
             int direction = Integer.parseInt(msg.getContent());
 
-            ACLMessage reply = msg.createReply();
-
             // Enqueue car
             crossroad.enqueueCar(direction, msg.getSender());
-
-            myAgent.send(reply);
         }
     }
 }

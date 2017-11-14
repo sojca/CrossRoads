@@ -1,9 +1,11 @@
 package agents;
 
+import behaviors.crossroad.AddCarBehaviour;
+import behaviors.crossroad.LightsBehaviour;
+import behaviors.crossroad.RemoveCarBehaviour;
 import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
-import jade.core.behaviours.WakerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
@@ -54,9 +56,10 @@ public class CrossRoad extends Agent {
             e.printStackTrace();
         }
 
-        //addBehaviour(new LightsBehaviour());
-        //addBehaviour(new AcceptCarBehaviour());
-        //addBehaviour(new ReleaseCarBehaviour());
+        addBehaviour(new LightsBehaviour());
+        addBehaviour(new AddCarBehaviour());
+        addBehaviour(new RemoveCarBehaviour());
+        
         addBehaviour(new CyclicBehaviour(this) {
             @Override
             public void action() {
@@ -147,45 +150,91 @@ public class CrossRoad extends Agent {
         }
     }
 
-    public void enqueueCar(int direction, AID aid) {
+    public void enqueueCar(int direction, AID car) {
         switch (direction) {
             case Constants.NORTH: {
-                northQueue.add(aid);
+                northQueue.add(car);
+                if (northQueue.size() == 1) {
+                    informCar(car);
+                }
                 break;
             }
             case Constants.SOUTH: {
-                southQueue.add(aid);
+                southQueue.add(car);
+                if (southQueue.size() == 1) {
+                    informCar(car);
+                }
                 break;
             }
             case Constants.WEST: {
-                westQueue.add(aid);
+                westQueue.add(car);
+                if (westQueue.size() == 1) {
+                    informCar(car);
+                }
                 break;
             }
             case Constants.EAST: {
-                eastQueue.add(aid);
+                eastQueue.add(car);
+                if (eastQueue.size() == 1) {
+                    informCar(car);
+                }
                 break;
             }
         }
     }
 
-    public void unqueueCar(int direction, AID aid) {
+    public void unqueueCar(int direction, AID car) {
         switch (direction) {
             case Constants.NORTH: {
+                if (car != northQueue.peek()) {
+                    System.err.println("ERROR: Desync");
+                    break;
+                }
                 northQueue.remove();
+                if (!northQueue.isEmpty()) {
+                    informCar(car);
+                }
                 break;
             }
             case Constants.SOUTH: {
+                if (car != southQueue.peek()) {
+                    System.err.println("ERROR: Desync");
+                    break;
+                }
                 southQueue.remove();
+                if (!southQueue.isEmpty()) {
+                    informCar(car);
+                }
                 break;
             }
             case Constants.WEST: {
+                if (car != westQueue.peek()) {
+                    System.err.println("ERROR: Desync");
+                    break;
+                }
                 westQueue.remove();
+                if (!westQueue.isEmpty()) {
+                    informCar(car);
+                }
                 break;
             }
             case Constants.EAST: {
+                if (car != eastQueue.peek()) {
+                    System.err.println("ERROR: Desync");
+                    break;
+                }
                 eastQueue.remove();
+                if (!eastQueue.isEmpty()) {
+                    informCar(car);
+                }
                 break;
             }
         }
+    }
+    
+    private void informCar(AID aid) {
+        ACLMessage m = new ACLMessage(ACLMessage.INFORM);
+        m.addReceiver(aid);
+        this.send(m);
     }
 }

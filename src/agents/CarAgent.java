@@ -2,7 +2,6 @@ package agents;
 
 import behaviors.car.CarBehaviour;
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.WakerBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -32,23 +31,22 @@ public class CarAgent extends Agent {
     @Override
     protected void setup() {
         Object args[] = getArguments();
-        
+
         System.out.println("Auto - ARGUMENTS");
         for (Object arg : args) {
             System.out.println(arg);
         }
 
-        /*
         getService();
-        
+
         //registrateDirectionFromService();
-        addBehaviour(new WakerBehaviour(this, 1000 + ((int) (Math.random() * 1000))) {
+        addBehaviour(new WakerBehaviour(this, 1000) {
 
             @Override
             protected void onWake() {
-                //addBehaviour(new CarBehaviour());
+                addBehaviour(new CarBehaviour());
             }
-        });*/
+        });
     }
 
     protected void registrateDirectionFromService() {
