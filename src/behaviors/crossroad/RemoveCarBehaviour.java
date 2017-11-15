@@ -10,21 +10,16 @@ import jade.lang.acl.MessageTemplate;
  */
 public class RemoveCarBehaviour extends CyclicBehaviour {
 
-    private final CrossRoad crossroad;
-
-    public RemoveCarBehaviour() {
-        crossroad = (CrossRoad) myAgent;
-    }
-
     @Override
     public void action() {
+        CrossRoad crossroad = (CrossRoad) myAgent;
+
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.INFORM);
         ACLMessage msg = myAgent.receive(mt);
 
         if (msg == null) {
             block();
-        }
-        else {
+        } else {
             int direction = Integer.parseInt(msg.getContent());
             System.out.println("CAR IS LEAVING: " + direction);
 

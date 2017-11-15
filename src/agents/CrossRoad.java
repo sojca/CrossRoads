@@ -1,6 +1,7 @@
 package agents;
 
 import behaviors.crossroad.AddCarBehaviour;
+import behaviors.crossroad.CrossroadStatus;
 import behaviors.crossroad.LightsBehaviour;
 import behaviors.crossroad.RemoveCarBehaviour;
 import jade.core.AID;
@@ -58,6 +59,7 @@ public class CrossRoad extends Agent {
 
         addBehaviour(new LightsBehaviour());
         addBehaviour(new AddCarBehaviour());
+        addBehaviour(new CrossroadStatus());
         addBehaviour(new RemoveCarBehaviour());
         
         addBehaviour(new CyclicBehaviour(this) {

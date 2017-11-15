@@ -43,6 +43,7 @@ public class EnqueueBehaviour extends Behaviour {
             block();
         } else {
             isFirstInQueue = true;
+            System.out.println("LEAVING QUEUE");
         }
     }
 

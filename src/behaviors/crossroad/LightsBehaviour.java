@@ -21,6 +21,6 @@ public class LightsBehaviour extends FSMBehaviour {
         registerState(new BasicBehaviour(crossroad), STATE_BASIC);
 
         registerDefaultTransition(STATE_SWITCH, STATE_BASIC);
-        registerDefaultTransition(STATE_BASIC, STATE_SWITCH);
+        registerDefaultTransition(STATE_BASIC, STATE_SWITCH, new String[] { STATE_BASIC });
     }
 }

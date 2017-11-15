@@ -23,7 +23,8 @@ public class TransitionBehaviour extends OneShotBehaviour {
             crossroad.setSemaphore(Constants.SOUTH, Constants.GREEN);
             crossroad.setSemaphore(Constants.WEST, Constants.RED);
             crossroad.setSemaphore(Constants.EAST, Constants.RED);
-
         }
+        
+        System.out.println("lights switched");
     }
 }

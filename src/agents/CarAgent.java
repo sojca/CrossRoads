@@ -37,13 +37,12 @@ public class CarAgent extends Agent {
             System.out.println(arg);
         }
 
-        getService();
-
         //registrateDirectionFromService();
         addBehaviour(new WakerBehaviour(this, 1000) {
 
             @Override
             protected void onWake() {
+                getService();
                 addBehaviour(new CarBehaviour());
             }
         });

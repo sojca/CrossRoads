@@ -10,14 +10,10 @@ import jade.lang.acl.MessageTemplate;
  */
 public class AddCarBehaviour extends CyclicBehaviour {
 
-    private final CrossRoad crossroad;
-
-    public AddCarBehaviour() {
-        crossroad = (CrossRoad) myAgent;
-    }
-
     @Override
     public void action() {
+        CrossRoad crossroad = (CrossRoad) myAgent;
+
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.PROPOSE);
         ACLMessage msg = myAgent.receive(mt);
 
@@ -28,6 +24,9 @@ public class AddCarBehaviour extends CyclicBehaviour {
             int direction = Integer.parseInt(msg.getContent());
 
             // Enqueue car
+            if (crossroad == null) {
+                System.out.println("NULL");
+            }
             crossroad.enqueueCar(direction, msg.getSender());
         }
     }

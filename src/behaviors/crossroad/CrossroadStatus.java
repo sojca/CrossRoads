@@ -12,14 +12,10 @@ import jade.lang.acl.MessageTemplate;
  */
 public class CrossroadStatus extends CyclicBehaviour {
 
-    private CrossRoad crossroad;
-
-    public CrossroadStatus() {
-        crossroad = (CrossRoad) myAgent;
-    }
-
     @Override
     public void action() {
+        CrossRoad crossroad = (CrossRoad) myAgent;
+        
         MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.REQUEST);
         ACLMessage msg = myAgent.receive(mt);
 
@@ -28,6 +24,7 @@ public class CrossroadStatus extends CyclicBehaviour {
         }
         
         else {
+            System.out.println("RECEIVED REQUEST");
             // Parse message
             int direction = Integer.parseInt(msg.getContent());
             
