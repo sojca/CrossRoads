@@ -1,17 +1,9 @@
 package lib;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
-/**
- *
- * @author patrik
- */
 public interface Constants {
 
+    // Dont change numbers plix plox, much crucial, such wow
     public static final int NORTH = 1;
     public static final int SOUTH = 2;
     public static final int EAST = 3;

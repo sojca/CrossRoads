@@ -3,7 +3,6 @@ package behaviors.car;
 import agents.CarAgent;
 import jade.core.behaviours.Behaviour;
 import jade.lang.acl.ACLMessage;
-import lib.Constants;
 
 /**
  * Car waits for green light
@@ -37,8 +36,8 @@ public class WaitForGreenLightBehaviour extends Behaviour {
             block();
         } else {
             if (rsp.getPerformative() == ACLMessage.PROPAGATE) {
-                int status = Integer.parseInt(rsp.getContent());
-                isGreenLight = (status == Constants.GREEN);
+                isGreenLight = true;
+                System.out.println("PASSING " + myAgent.getLocalName());
             }
         }
     }

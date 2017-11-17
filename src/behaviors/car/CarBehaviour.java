@@ -26,7 +26,7 @@ public class CarBehaviour extends FSMBehaviour {
 
         registerDefaultTransition(STATE_CHOOSE_DIRECTION, STATE_ENQUEUE);
         registerDefaultTransition(STATE_ENQUEUE, STATE_WAIT_GREEN);
-        registerDefaultTransition(STATE_WAIT_GREEN, STATE_MOVEMENT_DELAY);
+        registerDefaultTransition(STATE_WAIT_GREEN, STATE_MOVEMENT_DELAY, new String[] { STATE_WAIT_GREEN });
         registerDefaultTransition(STATE_MOVEMENT_DELAY, STATE_ENDPOINT);
     }
 }

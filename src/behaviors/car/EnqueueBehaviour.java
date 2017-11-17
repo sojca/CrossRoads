@@ -25,9 +25,8 @@ public class EnqueueBehaviour extends Behaviour {
             m.addReceiver(agent.getCrossroad().getName());
             m.setContent(msg);
             myAgent.send(m);
-            System.out.println("Informovany");
         } else {
-            System.out.println("nemam sluzbu");
+            System.out.println("ERROR: No service " + myAgent.getLocalName());
         }
     }
 
@@ -43,7 +42,7 @@ public class EnqueueBehaviour extends Behaviour {
             block();
         } else {
             isFirstInQueue = true;
-            System.out.println("LEAVING QUEUE");
+            System.out.println("LEAVING QUEUE " + myAgent.getLocalName());
         }
     }
 

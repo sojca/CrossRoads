@@ -61,7 +61,7 @@ public class CrossRoad extends Agent {
         addBehaviour(new AddCarBehaviour());
         addBehaviour(new CrossroadStatus());
         addBehaviour(new RemoveCarBehaviour());
-        
+
         addBehaviour(new CyclicBehaviour(this) {
             @Override
             public void action() {
@@ -233,10 +233,31 @@ public class CrossRoad extends Agent {
             }
         }
     }
-    
+
     private void informCar(AID aid) {
         ACLMessage m = new ACLMessage(ACLMessage.INFORM);
         m.addReceiver(aid);
         this.send(m);
+    }
+
+    public void propageStateOne() {
+        ACLMessage m = new ACLMessage(ACLMessage.PROPAGATE);
+        if (!northQueue.isEmpty()) {
+            m.addReceiver(northQueue.peek());
+        }
+        if (!southQueue.isEmpty()) {
+            m.addReceiver(southQueue.peek());
+        }
+        this.send(m);
+    }
+
+    public void propageStateTwo() {
+        ACLMessage m = new ACLMessage(ACLMessage.PROPAGATE);
+        if (!eastQueue.isEmpty()) {
+            m.addReceiver(eastQueue.peek());
+        }
+        if (!westQueue.isEmpty()) {
+            m.addReceiver(westQueue.peek());
+        }this.send(m);
     }
 }

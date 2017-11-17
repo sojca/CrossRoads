@@ -17,10 +17,10 @@ public class ChooseDirectionsBehavior extends OneShotBehaviour {
         Random rand = new Random();
         int src = rand.nextInt(DIRECTIONS - 1) + 1;  // Random 1 - 4
         agent.setSource(src);
-                
+
         int dst = rand.nextInt(DIRECTIONS - 2) + 1;  // Random 1 - 3
         agent.setDestination((src + dst) % DIRECTIONS);    // Random source and destination, cannot be same
-        
-        System.out.println("DIRECTIONS GENERATED: " + agent.getName());
+
+        System.out.println("DIRECTIONS - " + agent.getName() + " - souce: " + src + " - dest: " + dst);
     }
 }
